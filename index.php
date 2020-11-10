@@ -30,6 +30,32 @@ if(isset($_COOKIE['id']) && isset($_COOKIE['security'])){
 	exit("Please log in first.<a href='./login.php'>log in</a>");
 }
 
+
+// retrieve all campaign(includes picture)
+$result = mysqli_query($db,"SELECT * FROM campaign");
+while($row = mysqli_fetch_array($result))
+{
+echo "campaign poster: " . $row['email'] . "<br/>";
+echo "post time: " . $row['post_time'] . "<br/>";
+echo "post text: " . $row['post_text'] . "<br/>";
+
+//check campaign_id in picture table
+$sql="SELECT c.`campaign_id`, p.`campaign_id`, p.`img`
+FROM `campaign` AS `c`, `picture` AS `p`
+WHERE c.`campaign_id`= p.`campaign_id`";
+$pic = $db->query($sql);
+?>
+
+<?php while($picId = $pic->fetch_assoc()){ ?>
+    <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($picId['img']); ?>" /> 
+<?php } ?> 
+
+<?php
+}
+// mysqli_close($con);
+$result->free();
+
+
 $_SESSION['userEmail'] = $array['email'];
 setcookie("switch","on",0,"/");
 ?>
