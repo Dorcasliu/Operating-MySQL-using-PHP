@@ -35,14 +35,12 @@ if(isset($_COOKIE['id']) && isset($_COOKIE['security'])){
 $result = mysqli_query($db,"SELECT * FROM campaign");
 while($row = mysqli_fetch_array($result))
 {
-echo "campaign poster: " . $row['email'] . "<br/>";
-echo "post time: " . $row['post_time'] . "<br/>";
-echo "post text: " . $row['post_text'] . "<br/>";
+echo "<p>campaign poster: " . $row['email'] . "</p>";
+echo "<p>post time: " . $row['post_time'] . "</p>";
+echo "<p>post text: " . $row['post_text'] . "</p>";
 
-//check campaign_id in picture table
-$sql="SELECT c.`campaign_id`, p.`campaign_id`, p.`img`
-FROM `campaign` AS `c`, `picture` AS `p`
-WHERE c.`campaign_id`= p.`campaign_id`";
+//get current campaign_id in campaign table & check campaign_id in picture table
+$sql="SELECT * FROM picture WHERE campaign_id = {$row['campaign_id']} ";
 $pic = $db->query($sql);
 ?>
 
